@@ -1,0 +1,104 @@
+<div>
+    
+    <!--Nombre de la pizza-->
+    <div class="form-floating mb-3">
+
+      <input [(ngModel)] = "nombre_pizza" name = "nombre_pizza" type="text" placeholder = "Ingrese un nombre de la pizza" class="form-control">
+      <label class="form-label">Ingrese un nombre de la pizza</label>
+
+    </div>
+
+
+    <!--Descripcion de la pizza-->
+    <div class="form-floating mb-3">
+
+        <input [(ngModel)] = "descripcion_pizza" name= "descripcion_pizza" type="text" placeholder = "Escriba una descripción de la pizza" class="form-control">
+        <label class="form-label">Escriba una descripción de la pizza</label>
+  
+    </div>
+
+
+    <!--Precio de la pizza-->
+    <div class="form-floating mb-3">
+
+     
+
+        <input [(ngModel)] = "precio" type="number" name = "precio" placeholder = "Ingrese un $ precio  de la pizza" class="form-control">
+        <label class="form-label">Ingrese un $ precio de la pizza</label>
+
+    </div>
+
+
+
+    
+    <!--Imagen de la pizza-->
+    <div style = "text-align: center; margin-bottom: 10px;">
+
+        <input id = "input_subir_imagen" style = "display: none;" (change) = "subir_imagen($event)" type="file" accept = "image/*" placeholder = "Elija una imagen de la pizza" class="form-control">
+        
+        <!--Esto permite que al presionar este boton se acceda al input a pesar de que este pueda estar oculto-->
+        <button class = "btn btn-success boton_subir_imagen" onclick = "document.getElementById('input_subir_imagen').click()">
+            Subir una imagen 
+            <div><i class="fa-solid fa-file-arrow-up" style="font-size: 30px; margin-top: 10px;"></i></div>
+        </button>
+    
+    </div>
+
+
+    <!--Esperar a que se suba la imagen cuando se crea una nueva pizza-->
+    <div *ngIf = "esperar_subir_imagen && pizzas_contenido.abrir_editar == false" style = "text-align: center;">
+        <app-spinner></app-spinner>
+
+        <div>
+            subiendo imagen...
+        </div>
+        
+    </div>
+
+
+    <!--Esperar a que se suba la imagen cuando se edita la pizza-->
+    <div *ngIf = "pizzas_contenido.esperar_a_subir_imagen && pizzas_contenido.abrir_editar" style = "text-align: center;">
+        <app-spinner></app-spinner>
+
+        <div>
+            subiendo imagen...
+        </div>
+        
+    </div>
+
+
+    <!--Visualizacion de la imagen cuando se crea una nueva pizza-->
+    <div *ngIf = "imagen_visualizar.length != 0 && pizzas_contenido.abrir_editar == false" style = "text-align: center; margin-bottom: 10px;">
+        <img class = "imagen_visualizar" [src] = "imagen_visualizar" alt="">
+    </div>
+    
+
+    <!--Visualizacion de la imagen cuando se edita una pizza-->
+    <div *ngIf = "pizzas_contenido.abrir_editar && pizzas_contenido.esperar_a_subir_imagen == false" style = "text-align: center; margin-bottom: 10px;">
+        <img class = "imagen_visualizar" [src] = "pizzas_contenido.actualizar_imagen_pizza" alt="">
+    </div>
+
+    
+
+
+    <!--Este boton es cuando se crea una nueva pizza-->
+    <div *ngIf = "pizzas_contenido.abrir_editar == false" style = "text-align: center;">
+        <button (click) = "agregar_pizza()" type="button"
+         [disabled] = "nombre_pizza.length == 0 || descripcion_pizza.length == 0 || precio == null || imagen_visualizar.length == 0"
+        class="btn btn-primary">Guardar pizza</button>
+    </div>
+
+
+    <!--Este boton es cuando se edita una pizza-->
+    <div *ngIf = "pizzas_contenido.abrir_editar" style = "text-align: center;">
+        <button data-bs-dismiss="modal" (click) = "agregar_pizza()"
+         [disabled] = "nombre_pizza.length == 0 || descripcion_pizza.length == 0 || precio == null || pizzas_contenido.actualizar_imagen_pizza.length == 0
+         || pizzas_contenido.esperar_a_subir_imagen == true
+         "
+        class="btn btn-primary"
+        >Actualizar pizza
+        </button>
+    </div>
+
+    
+</div>

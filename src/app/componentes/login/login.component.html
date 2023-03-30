@@ -1,0 +1,75 @@
+<div class="contenido">
+
+    <div *ngIf = "mostrar_carga == false" class  = "caja">
+
+
+        <div  class = "icono-login-circulo">
+            <i class="fa-solid fa-users"></i>
+        </div>
+    
+        <form (submit) = "iniciar_sesion()" [formGroup] = "login">
+    
+            <div class="form-floating mb-3">
+        
+              <input type="email" formControlName = "email" placeholder = "Ingrese su email" class="form-control">
+              <label class="form-label">Ingrese su email</label>
+    
+              <span
+              *ngIf = "this.login.controls['email'].touched && this.login.value.email.length == 0" 
+              class="text-danger">Debe escribir un correo</span>
+    
+              <p
+              
+              *ngIf = "this.login.controls['email'].status == 'INVALID' && this.login.value.email.length > 0 && this.login.controls['email'].touched" 
+              class="text-danger">
+                El correo es inválido
+              </p>
+    
+            </div>
+    
+            <div class="form-floating mb-3">
+        
+                <input type="password" formControlName = "password" placeholder = "Ingrese su contraseña" class="form-control">
+                <label class="form-label">Ingrese su contraseña</label>
+    
+                <span
+                *ngIf = "this.login.controls['password'].status == 'INVALID' && this.login.controls['password'].touched" 
+                class="text-danger">Elija una contraseña</span>
+    
+                <p
+                *ngIf = "this.login.value.password.length > 0 && this.login.value.password.length < 6  && this.login.controls['password'].touched" 
+                class="text-danger"
+                >
+    
+                    La contraseña debe tener máximo 6 caracteres
+    
+                </p>
+    
+            </div>
+    
+    
+            <button [disabled] = "this.login.status == 'INVALID'" type="submit" class="btn btn-primary">Ingresar</button>
+        </form>
+        
+        <p  style = "margin-top: 10px; margin-bottom: 10px;" >No tienes cuenta? <a routerLink = "/registrar-usuario">registrarse</a></p>
+        <a  routerLink = "/recuperar-passsword">Recuperar contraseña</a>
+    
+
+
+    </div >
+
+    <div *ngIf = "mostrar_carga == false" class="caja-2">
+
+
+    </div>
+
+    <div *ngIf = "mostrar_carga == false" class="caja-3">
+
+    </div>
+
+   
+    <app-spinner *ngIf = "mostrar_carga">
+
+    </app-spinner>
+
+</div>

@@ -1,0 +1,110 @@
+<div class="contenido">
+
+    <div *ngIf = "mostrar_carga == false" class = "icono-login-circulo">
+        <i class="fa-solid fa-users"></i>
+    </div>
+
+    <form *ngIf = "mostrar_carga == false" (submit) = "registrar()" [formGroup] = "registrar_usuario">
+
+        <div class="form-floating mb-3">
+    
+            <input type="text" formControlName = "nombre" placeholder = "Escriba su nombre" class="form-control">
+            <span
+            *ngIf = "this.registrar_usuario.controls['nombre'].touched && this.registrar_usuario.value.nombre.length == 0" 
+            class="text-danger">Debe escribir su nombre</span>
+  
+  
+            <label class="form-label">Escriba su nombre</label>
+         </div>
+
+        <div class="form-floating mb-3">
+    
+          <input type="email" required formControlName = "email" placeholder = "Ingrese su email" class="form-control">
+          <span
+          *ngIf = "this.registrar_usuario.controls['email'].touched && this.registrar_usuario.value.email.length == 0" 
+          class="text-danger">Debe escribir un correo</span>
+
+          <p
+          
+          *ngIf = "this.registrar_usuario.controls['email'].status == 'INVALID' && this.registrar_usuario.value.email.length > 0 && this.registrar_usuario.controls['email'].touched" 
+          class="text-danger">
+            El correo es inválido
+          </p>
+
+          <label class="form-label">Ingrese su email</label>
+        </div>
+
+        <div class="form-floating mb-3">
+    
+            <input type="password" formControlName = "password" placeholder = "Ingrese su contraseña" class="form-control">
+            
+            <span
+            *ngIf = "this.registrar_usuario.controls['password'].status == 'INVALID' && this.registrar_usuario.controls['password'].touched" 
+            class="text-danger">Elija una contraseña</span>
+
+            <p
+            *ngIf = "this.registrar_usuario.value.password.length > 0 && this.registrar_usuario.value.password.length < 6  && this.registrar_usuario.controls['password'].touched" 
+            class="text-danger"
+            >
+
+                La contraseña debe tener máximo 6 caracteres
+
+            </p>
+
+            <label class="form-label">Escriba una contraseña</label>
+        </div>
+
+        <div class="form-floating mb-3">
+    
+            <input type="password" formControlName = "repetir_password" placeholder = "Ingrese su contraseña" class="form-control">
+
+            <span
+            *ngIf = "this.registrar_usuario.controls['repetir_password'].status == 'INVALID' && this.registrar_usuario.controls['repetir_password'].touched" 
+            class="text-danger">Escriba nuevamente la contraseña</span>
+            <label class="form-label">Escriba nuevamente la contraseña</label>
+
+            <p
+            *ngIf = "this.registrar_usuario.value.password != this.registrar_usuario.value.repetir_password
+
+            && (this.registrar_usuario.controls['repetir_password'].touched && this.registrar_usuario.controls['password'].touched)
+
+            && (this.registrar_usuario.value.repetir_password.length > 0)
+            
+            " 
+            class="text-danger"
+            >
+            No ha escrito la misma contraseña para ambos campos
+            </p>
+           
+
+        </div>
+
+        <div class = "titulo_y_select">
+
+            <div  style = "text-align: center; margin-bottom: 5px;">Seleccione su rol como usuario</div>
+
+            <select (change) = "ubicar_rol(elegir_rol.value)" #elegir_rol class="form-select" aria-label="Default select example">
+                <option selected value = "no_seleccionado">---</option>
+                <option value="admin">Admin</option>
+                <option value="visitante">Visitante</option>
+            </select>
+
+        </div>
+
+     
+
+      
+
+        <button type="submit" [disabled] = "this.registrar_usuario.status == 'INVALID' || (this.registrar_usuario.value.password != this.registrar_usuario.value.repetir_password)
+        || this.rol_actual == 'no_seleccionado' || this.registrar_usuario.value.password.length < 6 || this.registrar_usuario.value.repetir_password.length < 6" 
+        
+        class="btn btn-primary">Registrarse</button>
+    </form>
+    
+    <a *ngIf = "mostrar_carga == false" style = "margin-top: 10px;" routerLink = "/login">Volver</a>
+   
+    <app-spinner *ngIf = "mostrar_carga == true">
+        
+    </app-spinner>
+
+</div>

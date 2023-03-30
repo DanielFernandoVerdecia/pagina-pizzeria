@@ -1,0 +1,218 @@
+<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+    
+  
+  <!--Bienvenida al admin-->
+    <div *ngIf = "es_admin" class = "pizza_admin">
+
+      <i class="fa-sharp fa-solid fa-pizza-slice"></i>
+
+      Bienvenido Admin 
+      
+      <i style = "background-color: rgb(23, 203, 212);
+      border-radius: 20px;
+      ">{{nombre_usuario}}</i>
+
+      <i style = "font-size: 30px; margin-left: 5px;" class="fa-brands fa-redhat"></i>
+      
+    </div>
+
+    <!--Bienvenida en caso de ser visitante-->
+    <div *ngIf = "es_admin == false">
+      Bienvenido a Pizza Time {{nombre_usuario}}
+
+      <i style = "margin-left: 5px;" class="fa-sharp fa-solid fa-pizza-slice"></i>
+
+    </div>
+
+
+    <div class="col-md-3 text-end">
+
+      <!--Boton de ver carrito solo es para visitantes-->
+      <button *ngIf = "es_admin == false" 
+      (click) = "abrir_carrito()"
+      style = "margin-right: 10px;" type="button" class="btn btn-warning">Carrito <i class="fa-solid fa-cart-shopping" style = "font-size: 15px;">+{{pizzas_contenido.cantidad_pizzas_carrito}}</i></button>
+
+      <!--Boton cerrar sesion-->
+      <button (click) = "cerrar_sesion()" type="button" class="btn btn-outline-primary me-2">Cerrar sesión</button>
+    </div>
+
+
+</header>
+
+
+<!--Boton crear una nueva pizza-->
+<div *ngIf= "es_admin" style = "text-align: center; margin-bottom: 10px;">
+
+  <button (click) = "boton_crear_pizza()" class = "btn btn-success" data-bs-toggle="modal" data-bs-target="#modal_formulario">Crear una nueva pizza <i class="fa-sharp fa-solid fa-pizza-slice"></i></button>
+
+
+</div>
+
+<!--Boton eliminar todas las pizzas-->
+<div *ngIf= "es_admin && pizzas_menu_contenido != null" style = "text-align: end; margin-bottom: 20px;">
+
+  <button (click) = "boton_eliminar_todas_pizzas()" class = "btn btn-danger">Eliminar todas las pizzas <i class="fa-sharp fa-solid fa-pizza-slice"></i></button>
+
+
+</div>
+
+
+<!-- Formulario crear nueva pizza modal -->
+<div class="modal fade" id="modal_formulario" data-bs-backdrop="static"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="crear_nueva_pizza" aria-hidden="true">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="crear_nueva_pizza">Crear una nueva pizza</h1>
+        <button (click) = "cerrar_crear_pizza()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <app-formulario #formulario_crear></app-formulario>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+<!--Mostrar las pizzas-->
+<div class="contenido_pizzas" *ngIf = "pizzas_menu_contenido != null">
+
+  <!--Las tarjetas de las pizzas-->
+  <div class = "estilo_pizza" *ngFor = "let pizza of pizzas_menu_contenido; let indice = index">
+    
+    <!--El boton de eliminar solo es para admins-->
+    <div style = "text-align: end;">
+      <button (click) = "eliminar_una_pizza(indice)" *ngIf = "es_admin" class="btn btn-danger" style = "margin-bottom: 10px;">Eliminar <i class="fa-sharp fa-solid fa-trash"></i></button>
+    </div>
+   
+     
+   <!---Boton de agregar al carrito solo es para visitantes-->
+   <div style = "text-align: end;">
+    <button (click) = "agregar_al_carrito(indice)" *ngIf = "es_admin == false" class="btn btn-success" style = "margin-bottom: 10px;">Agregar al carrito <i class="fa-solid fa-cart-shopping"></i></button>
+   </div>
+
+
+    <img class="imagen_pizza" [src] = "pizza.imagen_pizza" alt="">
+
+    <!--Nombre de la pizza y su precio-->
+    <div style = "font-size: 18px; margin-bottom: 5px; text-align: center;">{{pizza.nombre_pizza}} {{ pizza.precio | currency: 'USD'}}</div>
+
+    <!--Descripcion de la pizza-->
+    <div>
+     {{pizza.descripcion_pizza}}
+    </div>
+    
+    <!--El boton de editar solo es para admins-->
+    <div style = "text-align: center;">
+      <button (click) = "enviar_indice_editar(indice)" data-bs-toggle="modal" data-bs-target="#modal_editar_formulario" *ngIf = "es_admin" class="btn btn-primary">Editar <i class="fa-solid fa-pen-to-square"></i></button>
+    </div>
+
+
+    
+    
+
+    <!-- Formulario editar una pizza modal -->
+    <div class="modal fade" id="modal_editar_formulario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editar_pizza" aria-hidden="true">
+          
+      <div class="modal-dialog">
+
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="editar_pizza">Editar una pizza</h1>
+            <button (click) = "cerrar_editar()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+          </div>
+
+          <div class="modal-body">
+            <app-formulario #formulario></app-formulario>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    
+    
+    <!--Solo aparece la opción de comprar si se es visitante-->
+    <div style = "text-align: center;">
+      <button (click)  = "comprar_pizza(indice)" *ngIf = "es_admin == false" class="btn btn-primary">Comprar</button>
+    </div>
+    
+
+
+    
+  </div>
+  
+  
+
+
+</div>
+
+<!--Mensaje que no hay pizzas-->
+<div *ngIf = "pizzas_menu_contenido == null" style = "text-align: center;">
+  No hay ninguna pizza en el menú
+</div>
+
+<!--Barra carrito compras-->
+
+<div class = "barra_carrito" [ngClass] = "{ver_carrito_pizza: ver_menu_barrita == true}">
+
+  <div style = "font-size: 18px; text-align: center; margin-top: 10px;">
+    Carrito de compras <i class="fa-solid fa-cart-shopping"></i>
+    <button (click) = "cerrar_carrito()" class="btn btn-danger" style = "margin-left: 10px;">Cerrar</button>
+  </div>
+
+  <div *ngIf= "hay_contenido_carrito_compras == false" style = "text-align: center; margin-top: 20px;">
+    No tienes ninguna pizza agregada a tu carrito
+  </div>
+
+  <!--Mostrar total a pagar-->
+  <div *ngIf = "pizzas_contenido.total_pagar_carrito != 0" style = "background-color: rgb(255, 116, 81); color: white; font-size: 20px; margin-top: 10px; margin-bottom: 20px;">
+      Total a pagar {{pizzas_contenido.total_pagar_carrito | currency: 'USD'}}
+  </div>
+
+  
+  <!--Boton para eliminar todas las pizzas del carrito-->
+  <div *ngIf = "hay_contenido_carrito_compras == true" style = "text-align: center;">
+    <button (click) = "eliminar_toda_pizza_carrito()" class = "btn btn-danger">Eliminar todas las pizzas del carrito</button>
+  </div>
+
+
+  <!--Boton comprar todas las pizzas carrito-->
+  <div *ngIf = "hay_contenido_carrito_compras == true" style = "text-align: center; margin-top: 20px;">
+    <button (click) = "comprar_todas_pizzas_carrito()" class = "btn btn-success">Comprar todas las pizzas</button>
+  </div>
+
+  <!--Mostramos todas las pizzas agregadas-->
+  <div class = "centrar_pizzas_carrito" *ngIf = "lista_pizzas_carrito_compras != null">
+
+    <div class = "pizza_en_carrito" *ngFor = "let pizza_carrito of lista_pizzas_carrito_compras; let indice_pizza_carrito = index">
+
+      <!--Boton eliminar-->
+      <div style="text-align: end; margin-bottom: 10px;">
+        <button (click) = "eliminar_una_pizza_del_carrito(indice_pizza_carrito)" class="btn btn-danger">Eliminar</button>
+      </div>
+      
+      <!--Imagen de la pizza-->
+      <div class="centrar_imagen_carrito_pizza">
+        <img class = "imagen_pizza_carrito" [src] = "pizza_carrito.imagen_pizza" alt="">
+      </div>
+      
+      <!--Nombre de la pizza con la cantidad-->
+      <div style = "margin-top: 5px;">{{pizza_carrito.nombre_pizza}} X {{pizza_carrito.cantidad_pizzas_compradas}}</div>
+
+
+      <!--Precio de la pizza-->
+      <div style ="margin-top: 10px;">Precio: {{pizza_carrito.precio | currency: 'USD'}}</div>
+
+    </div>
+
+  </div>
+  
+  
+</div>

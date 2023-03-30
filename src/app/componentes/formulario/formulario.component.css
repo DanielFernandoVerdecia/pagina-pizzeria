@@ -1,0 +1,10 @@
+.imagen_visualizar{
+    width: 350px;
+    height: 350px;
+}
+
+.boton_subir_imagen{
+    width: 110px;
+    height: 110px;
+    border-radius: 100%;
+}
