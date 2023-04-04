@@ -76,7 +76,9 @@ export class ContenidoComponent {
    
     const user_id = localStorage.getItem('id_user')
 
-    this.http.get('https://login-angular-53533-default-rtdb.firebaseio.com/datos/' + user_id +'.json').subscribe(
+    
+    const token_usuario = localStorage.getItem('user_token')
+    this.http.get('https://login-angular-53533-default-rtdb.firebaseio.com/datos/' + user_id +'.json?auth=' + token_usuario ).subscribe(
       (respuesta)=>{
 
 

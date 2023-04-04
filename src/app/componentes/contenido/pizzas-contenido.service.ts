@@ -58,9 +58,9 @@ export class PizzasContenidoService{
    
    this.pizzas_menu.push(pizza_obtenida) 
 
-  
+    const token_usuario = localStorage.getItem('user_token')
    
-    this.http.put('https://login-angular-53533-default-rtdb.firebaseio.com/pizzas_datos.json', this.pizzas_menu)
+    this.http.put('https://login-angular-53533-default-rtdb.firebaseio.com/pizzas_datos.json?auth=' + token_usuario , this.pizzas_menu)
     .subscribe()
 
     this.enviar_pizza_creads_en_local.emit(this.pizzas_menu)
@@ -68,12 +68,15 @@ export class PizzasContenidoService{
   }
 
   mostrar_pizzas(){
-    return this.http.get<PizzaCreada[]>('https://login-angular-53533-default-rtdb.firebaseio.com/pizzas_datos.json')
+    
+    const token_usuario = localStorage.getItem('user_token')
+    return this.http.get<PizzaCreada[]>('https://login-angular-53533-default-rtdb.firebaseio.com/pizzas_datos.json?auth=' + token_usuario)
   }
 
   editar_pizza(indice_obtenido: string, pizza_obtenida: PizzaCreada){
 
-    this.http.put('https://login-angular-53533-default-rtdb.firebaseio.com/pizzas_datos' + '/' + indice_obtenido + '.json', pizza_obtenida)
+    const token_usuario = localStorage.getItem('user_token')
+    this.http.put('https://login-angular-53533-default-rtdb.firebaseio.com/pizzas_datos' + '/' + indice_obtenido + '.json?auth=' + token_usuario, pizza_obtenida)
     .subscribe(
       ()=>{
 
@@ -95,7 +98,8 @@ export class PizzasContenidoService{
 
   eliminar_pizza(pizza_obtenidas: PizzaCreada[]){
 
-    this.http.put('https://login-angular-53533-default-rtdb.firebaseio.com/pizzas_datos.json', pizza_obtenidas)
+    const token_usuario = localStorage.getItem('user_token')
+    this.http.put('https://login-angular-53533-default-rtdb.firebaseio.com/pizzas_datos.json?auth=' + token_usuario , pizza_obtenidas)
     .subscribe(
       ()=>{
 
@@ -130,7 +134,9 @@ export class PizzasContenidoService{
   }
 
   eliminar_todas_pizzas(){
-    this.http.delete('https://login-angular-53533-default-rtdb.firebaseio.com/pizzas_datos.json').subscribe(
+
+    const token_usuario = localStorage.getItem('user_token')
+    this.http.delete('https://login-angular-53533-default-rtdb.firebaseio.com/pizzas_datos.json?auth=' + token_usuario).subscribe(
       ()=>{
 
         this.mostrar_pizzas().subscribe(
@@ -150,22 +156,28 @@ export class PizzasContenidoService{
 
   agregar_al_carrito_compras(pizzas_carrito_compras_obtenido: PizzaCarritoCompras[]){
 
-    this.http.put('https://login-angular-53533-default-rtdb.firebaseio.com/datos/' + localStorage.getItem('id_user') + '/carrito_compras.json', pizzas_carrito_compras_obtenido).subscribe()
+    const token_usuario = localStorage.getItem('user_token')
+    this.http.put('https://login-angular-53533-default-rtdb.firebaseio.com/datos/' + localStorage.getItem('id_user') + '/carrito_compras.json?auth=' + token_usuario, pizzas_carrito_compras_obtenido).subscribe()
 
   }
 
   mostrar_pizzas_carrito_compras(){
-    return this.http.get<PizzaCarritoCompras[]>('https://login-angular-53533-default-rtdb.firebaseio.com/datos/' + localStorage.getItem('id_user') + '/carrito_compras.json')
+
+    const token_usuario = localStorage.getItem('user_token')
+    return this.http.get<PizzaCarritoCompras[]>('https://login-angular-53533-default-rtdb.firebaseio.com/datos/' + localStorage.getItem('id_user') + '/carrito_compras.json?auth=' + token_usuario)
   }
 
   eliminar_una_pizza_carrito(pizzas_carrito_obtenido: PizzaCarritoCompras[]){
 
-    this.http.put('https://login-angular-53533-default-rtdb.firebaseio.com/datos/' + localStorage.getItem('id_user') + '/carrito_compras.json', pizzas_carrito_obtenido).subscribe()
+    const token_usuario = localStorage.getItem('user_token')
+    this.http.put('https://login-angular-53533-default-rtdb.firebaseio.com/datos/' + localStorage.getItem('id_user') + '/carrito_compras.json?auth=' + token_usuario, pizzas_carrito_obtenido).subscribe()
 
   }
 
   eliminar_todas_las_pizzas_carrito(){
-    this.http.delete('https://login-angular-53533-default-rtdb.firebaseio.com/datos/' + localStorage.getItem('id_user') + '/carrito_compras.json').subscribe()
+
+    const token_usuario = localStorage.getItem('user_token')
+    this.http.delete('https://login-angular-53533-default-rtdb.firebaseio.com/datos/' + localStorage.getItem('id_user') + '/carrito_compras.json?auth=' + token_usuario).subscribe()
   }
   
 

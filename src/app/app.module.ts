@@ -51,6 +51,7 @@ import { FormularioComponent } from './componentes/formulario/formulario.compone
 
     HttpClientModule,
 
+    //esto es para poder usar firebase storage
     AngularFireStorageModule,
 
     FormsModule

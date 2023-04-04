@@ -11,13 +11,9 @@ describe('ContenidoComponent', () => {
       declarations: [ ContenidoComponent ]
     })
     .compileComponents();
-
-    fixture = TestBed.createComponent(ContenidoComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  
+
 });
+

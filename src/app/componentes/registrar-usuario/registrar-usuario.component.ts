@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms'
 
 import {AngularFireAuth} from '@angular/fire/compat/auth'
+import * as firebase from 'firebase/auth'
 
 import Swal from 'sweetalert2'
 import { ActivatedRoute, Router } from '@angular/router';
@@ -103,27 +104,51 @@ export class RegistrarUsuarioComponent {
       .then(
         (respuesta)=>{
 
-          console.log('usuario creado')
-          console.log(respuesta)
-          
-          respuesta.user?.sendEmailVerification()
-
-          Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Revisa tu correo para que puedas verificar tu cuenta',
-            showConfirmButton: false,
-            timer: 5000
-          })
-
-          this.router.navigate(['/login'])
-
-          //con esto creamos los privilegios de los usuarios
-          const id_usuario_creado = respuesta.user?.uid
+          this.auth.signInWithEmailAndPassword(email, password)
+          .then(
+            (respuesta)=>{
       
-          this.http.post('https://login-angular-53533-default-rtdb.firebaseio.com/datos/' + id_usuario_creado + '.json', informacion_usuarios)
-          .subscribe()
+              
+              respuesta.user?.sendEmailVerification()
 
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Revisa tu correo para que puedas verificar tu cuenta',
+                showConfirmButton: false,
+                timer: 5000
+              })
+
+              this.router.navigate(['/login'])
+
+              
+                //obtenemos el token para acceder a la base de datos
+                firebase.getAuth().currentUser?.getIdToken().then(
+                (token_obtenido)=>{
+
+                  //con esto creamos los privilegios de los usuarios
+                  const id_usuario_creado = respuesta.user?.uid
+              
+                  this.http.post('https://login-angular-53533-default-rtdb.firebaseio.com/datos/' + id_usuario_creado + '.json?auth=' + token_obtenido, informacion_usuarios)
+                  .subscribe()
+    
+                  
+    
+                  
+    
+                }
+              )
+
+          
+      
+            }
+          )
+          .catch(
+            (error)=>{
+              console.log(error.code)
+
+            }
+          )
 
           
 
