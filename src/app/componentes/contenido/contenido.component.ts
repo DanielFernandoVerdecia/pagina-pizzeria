@@ -15,7 +15,7 @@ import { PizzaCarritoCompras } from './pizza-carrito-compras';
 @Component({
   selector: 'app-contenido',
   templateUrl: './contenido.component.html',
-  styleUrls: ['./contenido.component.css']
+  styleUrls: ['cotenidoSmallPantalla.css', 'contenidoMedianaPantalla.css' ,'./contenido.component.css']
 })
 export class ContenidoComponent {
 

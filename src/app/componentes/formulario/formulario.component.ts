@@ -16,7 +16,7 @@ import Swal from 'sweetalert2'
 @Component({
   selector: 'app-formulario',
   templateUrl: './formulario.component.html',
-  styleUrls: ['./formulario.component.css']
+  styleUrls: ['formularioSmallPantalla.css' ,'./formulario.component.css']
 })
 export class FormularioComponent {
 

@@ -30,7 +30,7 @@
       <!--Boton de ver carrito solo es para visitantes-->
       <button *ngIf = "es_admin == false" 
       (click) = "abrir_carrito()"
-      style = "margin-right: 10px;" type="button" class="btn btn-warning">Carrito <i class="fa-solid fa-cart-shopping" style = "font-size: 15px;">+{{pizzas_contenido.cantidad_pizzas_carrito}}</i></button>
+      style = "margin-right: 10px;" type="button" class="btn btn-warning carrito_compras">Carrito <i class="fa-solid fa-cart-shopping" style = "font-size: 15px;">+{{pizzas_contenido.cantidad_pizzas_carrito}}</i></button>
 
       <!--Boton cerrar sesion-->
       <button (click) = "cerrar_sesion()" type="button" class="btn btn-outline-primary me-2">Cerrar sesión</button>
@@ -43,15 +43,15 @@
 <!--Boton crear una nueva pizza-->
 <div *ngIf= "es_admin" style = "text-align: center; margin-bottom: 10px;">
 
-  <button (click) = "boton_crear_pizza()" class = "btn btn-success" data-bs-toggle="modal" data-bs-target="#modal_formulario">Crear una nueva pizza <i class="fa-sharp fa-solid fa-pizza-slice"></i></button>
+  <button (click) = "boton_crear_pizza()" style = "height: 65px;" class = "btn btn-success" data-bs-toggle="modal" data-bs-target="#modal_formulario">Crear una nueva pizza <i class="fa-sharp fa-solid fa-pizza-slice"></i></button>
 
 
 </div>
 
 <!--Boton eliminar todas las pizzas-->
-<div *ngIf= "es_admin && pizzas_menu_contenido != null" style = "text-align: end; margin-bottom: 20px;">
+<div *ngIf= "es_admin && pizzas_menu_contenido != null" style = "text-align: end; margin-bottom: 20px; margin-top: 40px;">
 
-  <button (click) = "boton_eliminar_todas_pizzas()" class = "btn btn-danger">Eliminar todas las pizzas <i class="fa-sharp fa-solid fa-pizza-slice"></i></button>
+  <button (click) = "boton_eliminar_todas_pizzas()" class = "btn btn-danger" >Eliminar todas las pizzas <i class="fa-sharp fa-solid fa-pizza-slice"></i></button>
 
 
 </div>

@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-recuperar-password',
   templateUrl: './recuperar-password.component.html',
-  styleUrls: ['./recuperar-password.component.css']
+  styleUrls: ['recuperar-passwordSmallPantalla.css' ,'./recuperar-password.component.css']
 })
 export class RecuperarPasswordComponent {
 

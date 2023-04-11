@@ -1,4 +1,5 @@
-
+@media(min-width: 1024px){
+    
 .pizza_admin{
     background-color: rgb(255, 255, 179);
     margin-left: 10px;
@@ -93,4 +94,5 @@
     width: 200px;
     height: 200px;
     border-radius: 20px;
+}
 }

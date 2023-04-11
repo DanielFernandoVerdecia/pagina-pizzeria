@@ -17,7 +17,7 @@ import { ConstantPool } from '@angular/compiler';
 @Component({
   selector: 'app-registrar-usuario',
   templateUrl: './registrar-usuario.component.html',
-  styleUrls: ['./registrar-usuario.component.css']
+  styleUrls: [ './pantallaSmall.css' ,'./registrar-usuario.component.css']
 })
 export class RegistrarUsuarioComponent {
 

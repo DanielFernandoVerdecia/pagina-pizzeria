@@ -1,0 +1,102 @@
+@media(min-width: 800px){
+    
+    .pizza_admin{
+        background-color: rgb(255, 255, 179);
+        margin-left: 10px;
+    
+        font-size: 20px;
+        border-radius: 20px;
+    }
+    
+    .carrito_compras{
+        margin-bottom: 20px;
+    }
+
+    .contenido_pizzas{
+        display: grid;
+        grid-template-columns: 330px 330px;
+    
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .estilo_pizza{
+        border: solid 5px rgb(244, 247, 159);
+        border-radius: 20px;
+        width: 310px;
+        height: auto;
+    
+        margin-bottom: 20px;
+    
+        background-image: radial-gradient( circle 400px at 6.8% 8.3%,  rgba(255,244,169,1) 0%, rgba(255,244,234,1) 100.2% );
+    
+    
+    
+    
+    
+    }
+    
+    .imagen_pizza{
+        width: 300px;
+        height: 300px;
+        border-radius: 20px;
+        
+    }
+    
+    .barra_carrito{
+        position: absolute;
+        background-color: rgb(229, 229, 229);
+        width: 0;
+        height: 90vh;
+    
+        border-radius: 20px;
+    
+        right: 0;
+        top: 70.4px;
+    
+        overflow: hidden;
+        overflow-y: scroll;
+    
+        transition: 0.5s ease all;
+    
+    }
+    
+    .ver_carrito_pizza{
+        width: 280px;
+    
+        transition: 0.5s ease all;
+    }
+    
+    .centrar_pizzas_carrito{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    
+        margin-top: 10px;
+    }
+    
+    .pizza_en_carrito{
+        width: 250px;
+        height: auto;
+        background-color: rgb(255, 253, 253);
+        border: solid 4px rgb(214, 214, 214);
+        border-radius: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    
+        
+    }
+    
+    .centrar_imagen_carrito_pizza{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .imagen_pizza_carrito{
+        width: 200px;
+        height: 200px;
+        border-radius: 20px;
+    }
+    }

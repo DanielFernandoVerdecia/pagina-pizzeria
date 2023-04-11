@@ -17,7 +17,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./pantallaSmall.css' ,'./pantallaGrande.css']
 })
 export class LoginComponent {
 
