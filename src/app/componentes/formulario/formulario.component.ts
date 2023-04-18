@@ -11,6 +11,7 @@ import { PizzasContenidoService } from '../contenido/pizzas-contenido.service';
 
 //importamos sweet alert
 import Swal from 'sweetalert2'
+import { PizzaEncontradaBuscadorService } from '../contenido/pizza-encontrada-buscador.service';
 
 
 @Component({
@@ -34,7 +35,9 @@ export class FormularioComponent {
   constructor(
     private angular_fire_storage: AngularFireStorage,
     
-    public pizzas_contenido: PizzasContenidoService
+    public pizzas_contenido: PizzasContenidoService,
+
+    public pizza_encontrada_bucador: PizzaEncontradaBuscadorService
   ){
 
     
@@ -181,6 +184,10 @@ export class FormularioComponent {
 
       this.pizzas_contenido.abrir_editar = false
 
+
+      
+    
+
     }
   
    //para guardar al crear   
@@ -215,9 +222,15 @@ export class FormularioComponent {
     this.imagen_visualizar = ""
 
 
+  
+
    
 
    } 
+
+
+
+   
   
    
     

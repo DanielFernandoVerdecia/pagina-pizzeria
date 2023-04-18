@@ -43,37 +43,7 @@
       
     }
     
-    .caja-2{
-    
-        position: absolute;
-        background: rgb(230,230,230);
-        background: linear-gradient(113deg, rgba(230,230,230,1) 35%, rgba(240,239,239,1) 69%);
-        border-radius: 15px;
-    
-        height: 450px;
-        width: 170px;
-    
-        transform: rotate(25deg);
-    
-        
-    
-    }
-    
-    .caja-3{
-    
-        position: absolute;
-        background-color: rgb(255, 251, 251);
-        border-radius: 15px;
-    
-        height: 450px;
-        width: 170px;
-
-        transform: rotate(30deg);
-        border: solid 5px rgb(255, 251, 251);
-        
-    
-    }
-    
+   
     
     
     .icono-login-circulo{
@@ -99,6 +69,8 @@
         align-items: center;
         flex-direction: column;
     }
+
+   
 
     input{
         width: 250px;

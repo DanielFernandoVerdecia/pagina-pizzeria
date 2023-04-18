@@ -1,5 +1,19 @@
 @media(min-width: 800px){
     
+    .encabezado{
+      flex-direction: row;
+      justify-content: space-between;
+
+      border-bottom: 2.5px solid rgb(198, 197, 197);
+      border-radius: 10px;
+
+      margin-bottom: 15px;
+
+      width: auto;
+
+      height: 70px;
+    }
+  
     .pizza_admin{
         background-color: rgb(255, 255, 179);
         margin-left: 10px;
@@ -7,10 +21,143 @@
         font-size: 20px;
         border-radius: 20px;
     }
-    
-    .carrito_compras{
-        margin-bottom: 20px;
+
+
+    .input_y_buscar{
+         display: flex;
+         align-items: center;
     }
+
+
+    .borrador_y_buscador{
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        width: 0px;
+    
+        transition: .8s ease all;
+
+    }
+
+
+    .mostrar_borrador_y_buscador{
+
+        width: 545px;
+
+        transition: .8s ease all;
+
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        
+
+    }
+
+
+    .borrar_texto_buscador{
+        
+        display: none;
+
+    }
+
+    .mostrar_borrar_texto_buscador{
+
+        font-size: 25px;
+
+        width: 35px;
+        height: 35px;
+        border-radius: 100%;
+
+        background-color: #ff5739;
+        
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+
+    .escribir_buscar{
+
+       display: none;
+       transition: .8s ease all;
+        
+    
+        
+    }
+
+    .mostrar_escribir_buscar{
+
+        display: block;
+
+        margin-left: 10px;
+
+        border-radius: 30px;
+        border: 4px solid #FBAB7E ;
+
+        outline: none;
+        padding-left: 10px;
+
+        width: 500px;
+
+        position: relative;
+       
+        transition: .8s ease all;
+
+
+    }
+
+    .sugerencia_buscador{
+        
+        position: absolute;
+
+        margin-left: 10px;
+
+        width: 500px;
+
+        height: auto;
+
+        border: solid 2px rgb(202, 201, 201);
+        border-radius: 10px;
+
+        background-color: white;
+
+        padding: 10px;
+    }
+
+    .pizza_sugerencia{
+
+        margin-top: 12px;
+        margin-bottom: 12px;
+        height: 35px;
+
+    }
+
+    .icono_buscar{
+        
+        margin-left: 10px;
+
+        font-size: 25px;
+        
+        width: 35px;
+        height: 35px;
+        border-radius: 100%;
+
+        background-color: #FBAB7E;
+        background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        cursor: pointer;
+
+    }
+    
+   
 
     .contenido_pizzas{
         display: grid;
@@ -42,6 +189,16 @@
         border-radius: 20px;
         
     }
+
+
+
+    .carrito_compras_y_cerrar_sesion{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+    }
+
     
     .barra_carrito{
         position: absolute;

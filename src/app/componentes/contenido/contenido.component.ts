@@ -11,6 +11,8 @@ import { PizzaCreada } from './pizza-creada';
 
 import Swal from 'sweetalert2'
 import { PizzaCarritoCompras } from './pizza-carrito-compras';
+import { PizzaSugerencia } from './pizza-sugerencia';
+import { PizzaEncontradaBuscadorService } from './pizza-encontrada-buscador.service';
 
 @Component({
   selector: 'app-contenido',
@@ -49,7 +51,9 @@ export class ContenidoComponent {
 
     private http: HttpClient,
 
-    public pizzas_contenido: PizzasContenidoService
+    public pizzas_contenido: PizzasContenidoService,
+
+    public pizza_encontrada_buscador: PizzaEncontradaBuscadorService
     
   ){
 
@@ -59,9 +63,74 @@ export class ContenidoComponent {
 
       this.pizzas_menu_contenido = pizzas_obtenidas
 
+
+      //cuando vayamos a actualizar o crear una pizza y estemos en el buscador
+      //entonces se van actualizar la busqueda de la pizza
+
+
+      
+      //actualizamos los resultados del buscador
+
+            //para eso iniciamos la animacion de carga
+            this.ver_carga_buscador = true
+
+
+             
+              
+      
+              //eliminamos todo el contenido del array pizza buscador
+              this.pizza_encontrada_buscador.pizzas_del_buscador = []
+
+              this.pizzas_menu_contenido.forEach(
+
+                (pizza_obtenida, index)=>{
+
+                  //filtro de busqueda
+                  if(pizza_obtenida.nombre_pizza.toLocaleLowerCase().includes(this.texto_buscador.toLocaleLowerCase()) && 
+                  this.texto_buscador != " " && this.texto_buscador.length > 0
+                  ){
+
+                    
+                    const indice = index
+                    
+                    const nombre_pizza = this.pizzas_menu_contenido[index].nombre_pizza
+                    const descripcion_pizza = this.pizzas_menu_contenido[index].descripcion_pizza
+                    const precio = this.pizzas_menu_contenido[index].precio
+                    const imagen_pizza = this.pizzas_menu_contenido[index].imagen_pizza
+
+                    const pizza_para_buscador = new PizzaSugerencia(
+                      indice, nombre_pizza, descripcion_pizza, precio, imagen_pizza
+
+                    )
+
+
+                    this.pizza_encontrada_buscador.pizzas_del_buscador.push(pizza_para_buscador)
+                    console.log(this.pizzas_menu_contenido)
+                    
+
+
+                  }
+
+
+
+
+                }
+
+              )
+
+              //detenemos la animacion de carga
+              this.ver_carga_buscador = false
+
+   
+
+      
+
     }
 
    )
+
+
+   
 
 
   }
@@ -71,6 +140,15 @@ export class ContenidoComponent {
 
   es_admin = false
   
+  mostrar_bucador = false
+
+  texto_buscador = ""
+
+  ver_solo_pizzas_buscador = false
+
+  ver_carga_buscador = false
+
+  ver_sugerencia_pizza = false
 
   ngOnInit(): void {
    
@@ -169,7 +247,178 @@ export class ContenidoComponent {
     
     
   }
+
+  eliminar_texto_buscador(){
+
+    this.texto_buscador = ""
+
+    this.ver_solo_pizzas_buscador = false
+
+    this.pizza_encontrada_buscador.pizzas_del_buscador = []
+
+  }
   
+  activar_desactivar_buscador(){
+
+    //cuando lo activemos o desactivemos siempre se borra el texto del buscador
+    this.texto_buscador = ""
+
+    //borramos las pizzas del buscador
+    this.pizza_encontrada_buscador.pizzas_del_buscador = []
+
+    //ocultar buscador 
+    if (this.mostrar_bucador){
+      this.mostrar_bucador = false
+
+      this.ver_solo_pizzas_buscador = false
+    }
+
+    //mostrar buscador
+    else if(this.mostrar_bucador == false){
+      this.mostrar_bucador = true
+    }
+
+
+  }
+
+  seleccionar_sugerencia_pizza(pizza_sugerida: string){
+
+     this.texto_buscador = pizza_sugerida
+
+     //quitamos la sugerencias de las pizzas
+     this.ver_sugerencia_pizza = false
+
+     //iniciamos la animacion de carga
+     this.ver_carga_buscador = true
+
+
+    
+    
+    //eliminamos todo el contenido del array pizza buscador
+    this.pizza_encontrada_buscador.pizzas_del_buscador = []
+
+    this.pizzas_menu_contenido.forEach(
+
+      (pizza_obtenida, index)=>{
+
+        //filtro de busqueda
+        if(pizza_obtenida.nombre_pizza.toLocaleLowerCase().includes(this.texto_buscador.toLocaleLowerCase()) && 
+            this.texto_buscador != " " && this.texto_buscador.length > 0
+          ){
+
+          
+          const indice = index
+          
+          const nombre_pizza = this.pizzas_menu_contenido[index].nombre_pizza
+          const descripcion_pizza = this.pizzas_menu_contenido[index].descripcion_pizza
+          const precio = this.pizzas_menu_contenido[index].precio
+          const imagen_pizza = this.pizzas_menu_contenido[index].imagen_pizza
+
+          const pizza_para_buscador = new PizzaSugerencia(
+            indice, nombre_pizza, descripcion_pizza, precio, imagen_pizza
+
+          )
+
+
+          this.pizza_encontrada_buscador.pizzas_del_buscador.push(pizza_para_buscador)
+
+
+        }
+
+
+
+
+      }
+
+    )
+
+    //detenemos la animacion de carga
+    this.ver_carga_buscador = false
+
+
+  }
+
+  buscador_instantaneo(texto_obtenido: any){
+
+
+    this.ver_carga_buscador = true
+
+
+    this.texto_buscador = texto_obtenido.target.value
+
+    this.ver_sugerencia_pizza = true
+
+
+    if (this.texto_buscador.length > 0){
+      this.ver_solo_pizzas_buscador = true
+    }
+
+    else if (this.texto_buscador.length == 0){
+      this.ver_solo_pizzas_buscador = false
+    }
+
+
+
+    
+    
+    //eliminamos todo el contenido del array pizza buscador
+    this.pizza_encontrada_buscador.pizzas_del_buscador = []
+
+    this.pizzas_menu_contenido.forEach(
+
+      (pizza_obtenida, index)=>{
+
+        //filtro de busqueda
+        if(pizza_obtenida.nombre_pizza.toLocaleLowerCase().includes(this.texto_buscador.toLocaleLowerCase()) && 
+            this.texto_buscador != " " && this.texto_buscador.length > 0
+          ){
+
+          
+          const indice = index
+          
+          const nombre_pizza = this.pizzas_menu_contenido[index].nombre_pizza
+          const descripcion_pizza = this.pizzas_menu_contenido[index].descripcion_pizza
+          const precio = this.pizzas_menu_contenido[index].precio
+          const imagen_pizza = this.pizzas_menu_contenido[index].imagen_pizza
+
+          const pizza_para_buscador = new PizzaSugerencia(
+            indice, nombre_pizza, descripcion_pizza, precio, imagen_pizza
+
+          )
+
+
+          this.pizza_encontrada_buscador.pizzas_del_buscador.push(pizza_para_buscador)
+
+
+        }
+
+
+
+
+      }
+
+    )
+
+    this.ver_carga_buscador = false
+
+   
+
+    
+
+
+
+
+    
+
+
+      
+     
+    
+
+  }
+
+
+
   cerrar_sesion(){
 
     this.auth.signOut()
@@ -245,6 +494,56 @@ export class ContenidoComponent {
           timer: 4000
         })
 
+
+        //actualizamos los resultados del buscador
+
+        //para eso iniciamos la animacion de carga
+        this.ver_carga_buscador = true
+
+
+        
+        //eliminamos todo el contenido del array pizza buscador
+        this.pizza_encontrada_buscador.pizzas_del_buscador = []
+
+        this.pizzas_menu_contenido.forEach(
+
+          (pizza_obtenida, index)=>{
+
+            //filtro de busqueda
+            if(pizza_obtenida.nombre_pizza.toLocaleLowerCase().includes(this.texto_buscador.toLocaleLowerCase()) && 
+            this.texto_buscador != " " && this.texto_buscador.length > 0
+            ){
+
+              
+              const indice = index
+              
+              const nombre_pizza = this.pizzas_menu_contenido[index].nombre_pizza
+              const descripcion_pizza = this.pizzas_menu_contenido[index].descripcion_pizza
+              const precio = this.pizzas_menu_contenido[index].precio
+              const imagen_pizza = this.pizzas_menu_contenido[index].imagen_pizza
+
+              const pizza_para_buscador = new PizzaSugerencia(
+                indice, nombre_pizza, descripcion_pizza, precio, imagen_pizza
+
+              )
+
+
+              this.pizza_encontrada_buscador.pizzas_del_buscador.push(pizza_para_buscador)
+
+
+            }
+
+
+
+
+          }
+
+        )
+
+        //detenemos la animacion de carga
+        this.ver_carga_buscador = false
+
+
       }
     })
 
@@ -273,6 +572,54 @@ export class ContenidoComponent {
           showConfirmButton: false,
           timer: 4000
         })
+
+        //actualizamos los resultados del buscador
+
+        //para eso iniciamos la animacion de carga
+        this.ver_carga_buscador = true
+
+
+        
+        //eliminamos todo el contenido del array pizza buscador
+        this.pizza_encontrada_buscador.pizzas_del_buscador = []
+
+        this.pizzas_menu_contenido.forEach(
+
+          (pizza_obtenida, index)=>{
+
+            //filtro de busqueda
+            if(pizza_obtenida.nombre_pizza.toLocaleLowerCase().includes(this.texto_buscador.toLocaleLowerCase()) && 
+            this.texto_buscador != " " && this.texto_buscador.length > 0
+            ){
+              
+              const indice = index
+              
+              const nombre_pizza = this.pizzas_menu_contenido[index].nombre_pizza
+              const descripcion_pizza = this.pizzas_menu_contenido[index].descripcion_pizza
+              const precio = this.pizzas_menu_contenido[index].precio
+              const imagen_pizza = this.pizzas_menu_contenido[index].imagen_pizza
+
+              const pizza_para_buscador = new PizzaSugerencia(
+                indice, nombre_pizza, descripcion_pizza, precio, imagen_pizza
+
+              )
+
+
+              this.pizza_encontrada_buscador.pizzas_del_buscador.push(pizza_para_buscador)
+
+
+            }
+
+
+
+
+          }
+
+        )
+
+        //detenemos la animacion de carga
+        this.ver_carga_buscador = false
+
       }
     })
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, MinValidator, Validators } from '@angular/forms';
 
 import {AngularFireAuth} from '@angular/fire/compat/auth'
 import * as firebase from 'firebase/auth'
@@ -41,7 +41,7 @@ export class LoginComponent {
   ){
     this.login = this.form_builder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
 
@@ -130,7 +130,7 @@ export class LoginComponent {
     if(tipo_error == "auth/invalid-email"){
       Swal.fire({
         icon: 'error',
-        title: 'Error al acceder a su correo',
+        title: 'Error al acceder a su cuenta',
         text: 'El formato de email es invalido, recuerde escribir "@" seguido del servicio de email, y después ".com"',
       });
     }
@@ -138,7 +138,7 @@ export class LoginComponent {
     else if(tipo_error == "auth/user-not-found"){
       Swal.fire({
         icon: 'error',
-        title: 'Error al acceder a su correo',
+        title: 'Error al acceder a su cuenta',
         text: 'El usuario al que intenta acceder no existe',
       });
     }
@@ -147,8 +147,18 @@ export class LoginComponent {
 
       Swal.fire({
         icon: 'error',
-        title: 'Error al acceder a su correo',
+        title: 'Error al acceder a su cuenta',
         text: 'La contraseña es incorrecta',
+      });
+
+    }
+
+    else if(tipo_error == 'auth/too-many-requests'){
+      
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al acceder a su cuenta',
+        text: 'Los datos ingresados siguen siendo invalidos',
       });
 
     }

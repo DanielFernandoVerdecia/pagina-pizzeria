@@ -1,4 +1,4 @@
-<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+<header class="encabezado">
     
   
   <!--Bienvenida al admin-->
@@ -25,12 +25,82 @@
     </div>
 
 
-    <div class="col-md-3 text-end">
+    <!--Boton buscar-->
+    <div class = "input_y_buscar">
+
+        <!--Borrador y buscador-->
+        <div class = "borrador_y_buscador" 
+        
+        [ngClass] = "{mostrar_borrador_y_buscador: mostrar_bucador}">
+
+            <!--Borrador-->
+            <div 
+            [ngClass] = "{mostrar_borrar_texto_buscador: mostrar_bucador}"
+            class="borrar_texto_buscador"
+            (click) = "eliminar_texto_buscador()"
+            >
+
+              <i class="fa-solid fa-trash"></i>
+            </div>
+            
+
+            <!--Input buscador y sugerencias-->
+
+            <div>
+
+              <!--Input buscador-->
+              <input 
+              [ngClass] = "{mostrar_escribir_buscar: mostrar_bucador}"
+              type="text" class = "escribir_buscar"
+              (input) = "buscador_instantaneo($event)"
+  
+              [(ngModel)] = "texto_buscador" 
+              >
+  
+              <!--Sugerencias del buscador-->
+              <div *ngIf = "pizza_encontrada_buscador.pizzas_del_buscador.length > 0 && ver_sugerencia_pizza" class = "sugerencia_buscador">
+  
+                <!--Solo mostraremos los 5 primeras sugerencias-->
+                  <div class = "pizza_sugerencia" *ngFor = "let pizza_sugerencia of pizza_encontrada_buscador.pizzas_del_buscador.slice(0,5)"
+                  (click) = "seleccionar_sugerencia_pizza(pizza_sugerencia.nombre_pizza)"
+                  >
+                    <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+                    {{pizza_sugerencia.nombre_pizza}}
+                  </div>
+  
+              </div>
+
+            </div>
+
+
+           
+
+        </div>
+
+        
+        <!--Boton buscador-->
+        <div class = "icono_buscar" (click) = "activar_desactivar_buscador()">
+
+          <!--Boton lupa de buscar-->
+          <i *ngIf = "mostrar_bucador == false" 
+          class="fa-sharp fa-solid fa-magnifying-glass"></i>
+
+          <!--Boton quitar buscador-->
+          <i *ngIf = "mostrar_bucador" class="fa-solid fa-x"></i>
+
+        </div>
+      
+
+    </div>
+
+
+    <!--Boton carrito y cerrar sesion-->
+    <div class="carrito_compras_y_cerrar_sesion">
 
       <!--Boton de ver carrito solo es para visitantes-->
       <button *ngIf = "es_admin == false" 
       (click) = "abrir_carrito()"
-      style = "margin-right: 10px;" type="button" class="btn btn-warning carrito_compras">Carrito <i class="fa-solid fa-cart-shopping" style = "font-size: 15px;">+{{pizzas_contenido.cantidad_pizzas_carrito}}</i></button>
+      style = "margin-right: 20px;" type="button" class="btn btn-warning carrito_compras">Carrito <i class="fa-solid fa-cart-shopping" style = "font-size: 15px;">+{{pizzas_contenido.cantidad_pizzas_carrito}}</i></button>
 
       <!--Boton cerrar sesion-->
       <button (click) = "cerrar_sesion()" type="button" class="btn btn-outline-primary me-2">Cerrar sesión</button>
@@ -47,6 +117,8 @@
 
 
 </div>
+
+
 
 <!--Boton eliminar todas las pizzas-->
 <div *ngIf= "es_admin && pizzas_menu_contenido != null" style = "text-align: end; margin-bottom: 20px; margin-top: 40px;">
@@ -80,7 +152,7 @@
 
 
 <!--Mostrar las pizzas-->
-<div class="contenido_pizzas" *ngIf = "pizzas_menu_contenido != null">
+<div class="contenido_pizzas" *ngIf = "pizzas_menu_contenido != null && ver_solo_pizzas_buscador == false">
 
   <!--Las tarjetas de las pizzas-->
   <div class = "estilo_pizza" *ngFor = "let pizza of pizzas_menu_contenido; let indice = index">
@@ -154,9 +226,100 @@
 </div>
 
 <!--Mensaje que no hay pizzas-->
-<div *ngIf = "pizzas_menu_contenido == null" style = "text-align: center;">
+<div *ngIf = "pizzas_menu_contenido == null && ver_solo_pizzas_buscador == false" 
+style = "text-align: center;">
   No hay ninguna pizza en el menú
 </div>
+
+<!--Mostrar las pizza del buscador-->
+<div class="contenido_pizzas" *ngIf = "pizza_encontrada_buscador.pizzas_del_buscador.length != 0 && ver_solo_pizzas_buscador">
+
+
+  <!--Mostrar animacion carga buscador-->
+  <div style = "text-align: center;" *ngIf = "ver_solo_pizzas_buscador && ver_carga_buscador">
+    <app-spinner></app-spinner>
+  </div>
+  
+
+  <!--Las tarjetas de las pizzas-->
+  <div class = "estilo_pizza" *ngFor = "let pizza of pizza_encontrada_buscador.pizzas_del_buscador">
+    
+    <!--El boton de eliminar solo es para admins-->
+    <div style = "text-align: end;">
+      <button (click) = "eliminar_una_pizza(pizza.indice)" *ngIf = "es_admin" class="btn btn-danger" style = "margin-bottom: 10px;">Eliminar <i class="fa-sharp fa-solid fa-trash"></i></button>
+    </div>
+   
+     
+   <!---Boton de agregar al carrito solo es para visitantes-->
+   <div style = "text-align: end;">
+    <button (click) = "agregar_al_carrito(pizza.indice)" *ngIf = "es_admin == false" class="btn btn-success" style = "margin-bottom: 10px;">Agregar al carrito <i class="fa-solid fa-cart-shopping"></i></button>
+   </div>
+
+
+    <img class="imagen_pizza" [src] = "pizza.imagen_pizza" alt="">
+
+    <!--Nombre de la pizza y su precio-->
+    <div style = "font-size: 18px; margin-bottom: 5px; text-align: center;">{{pizza.nombre_pizza}} {{ pizza.precio | currency: 'USD'}}</div>
+
+    <!--Descripcion de la pizza-->
+    <div>
+     {{pizza.descripcion_pizza}}
+    </div>
+    
+    <!--El boton de editar solo es para admins-->
+    <div style = "text-align: center;">
+      <button (click) = "enviar_indice_editar(pizza.indice)" data-bs-toggle="modal" data-bs-target="#modal_editar_formulario" *ngIf = "es_admin" class="btn btn-primary">Editar <i class="fa-solid fa-pen-to-square"></i></button>
+    </div>
+
+
+    
+    
+
+    <!-- Formulario editar una pizza modal -->
+    <div class="modal fade" id="modal_editar_formulario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editar_pizza" aria-hidden="true">
+          
+      <div class="modal-dialog">
+
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="editar_pizza">Editar una pizza</h1>
+            <button (click) = "cerrar_editar()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+          </div>
+
+          <div class="modal-body">
+            <app-formulario #formulario></app-formulario>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    
+    
+    <!--Solo aparece la opción de comprar si se es visitante-->
+    <div style = "text-align: center;">
+      <button (click)  = "comprar_pizza(pizza.indice)" *ngIf = "es_admin == false" class="btn btn-primary">Comprar</button>
+    </div>
+    
+
+
+    
+  </div>
+  
+
+  
+
+
+</div>
+
+<!--Mostrar mensaje de no encontrar pizza del buscador-->
+<div *ngIf = "pizza_encontrada_buscador.pizzas_del_buscador.length == 0 && ver_solo_pizzas_buscador" 
+style = "text-align: center;">
+  No se ha encontrado ninguna pizza con la información suministrada
+</div>
+
+
 
 <!--Barra carrito compras-->
 
